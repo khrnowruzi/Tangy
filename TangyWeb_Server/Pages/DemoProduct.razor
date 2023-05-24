@@ -5,22 +5,7 @@
 <div class="row p-2 mt-2 bg-info">
     @foreach (var product in Products)
     {
-        <div class="col-6 border bg-light p-2">
-            <h4 class="text-secondary">Product - @product.Id</h4>
-            <p>Name - @product.Name</p>
-            <p>
-                Show Properties :
-                <input type="checkbox" @bind-value="product.IsActive" checked="@(product.IsActive?"checked":null)" />
-            </p>
-            @if (product.IsActive && product.ProductProperties?.Count > 0)
-            {
-                @foreach (var properties in product.ProductProperties)
-                {
-                    <p>@properties.Key - @properties.Value</p>
-                }
-            }
-            <_EditDeleteButton />
-        </div>
+        <_IndividualProduct Product="product" />
     }
 </div>
 
