@@ -1,5 +1,7 @@
-﻿<div class="col-6 border bg-light p-2">
+﻿<div class="col-6 border bg-light p-2" @onclick="(arg)=>ProductClicked(arg, Product)">
     <h4 class="text-secondary">Product - @Product.Id</h4>
+    <input type="checkbox" @onchange="FavoritUpdated" /> Add to Favorite
+
     <p>Name - @Product.Name</p>
     <p>
         Show Properties :
@@ -18,4 +20,20 @@
 @code {
     [Parameter]
     public Demo_Products Product { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnFavoriteSelection { get; set; }
+
+    [Parameter]
+    public EventCallback<Demo_Products> OnProductSelected { get; set; }
+
+    private async Task FavoritUpdated(ChangeEventArgs e)
+    {
+        await OnFavoriteSelection.InvokeAsync((bool)e.Value);
+    }
+
+    private async Task ProductClicked(MouseEventArgs e, Demo_Products prodcut)
+    {
+        await OnProductSelected.InvokeAsync(prodcut);
+    }
 }
