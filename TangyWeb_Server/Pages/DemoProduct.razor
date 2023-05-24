@@ -1,0 +1,64 @@
+﻿@page "/learnBlazor/demoproduct"
+
+<h3 class="text-primary">DemoProduct</h3>
+
+<div class="row p-2 mt-2 bg-info">
+    @foreach (var product in Products)
+    {
+        <div class="col-6 border bg-light p-2">
+            <h4 class="text-secondary">Product - @product.Id</h4>
+            <p>Name - @product.Name</p>
+            <p>
+                Show Properties :
+                <input type="checkbox" @bind-value="product.IsActive" checked="@(product.IsActive?"checked":null)" />
+            </p>
+            @if (product.IsActive && product.ProductProperties?.Count > 0)
+            {
+                @foreach (var properties in product.ProductProperties)
+                {
+                    <p>@properties.Key - @properties.Value</p>
+                }
+            }
+            <div class="col-lg-12">
+                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-success">Edit</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Demo_Products> Products = new();
+
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Midnight Blaze",
+                IsActive = false,
+                Price = 10.99,
+                ProductProperties = new()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
+                    new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+                    new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
+                }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Blossom Lily",
+                IsActive = true,
+                Price = 13.99,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
+                new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
+            }
+            });
+        base.OnInitialized();
+    }
+}
