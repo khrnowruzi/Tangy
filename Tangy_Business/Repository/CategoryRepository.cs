@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Security.Cryptography;
 using Tangy_Business.Repository.IRepository;
 using Tangy_DataAccess;
 using Tangy_DataAccess.Data;
@@ -19,7 +20,7 @@ namespace Tangy_Business.Repository
 
         public CategoryDTO Create(CategoryDTO objDTO)
         {
-            var obj = _mapper.Map<CategoryDTO,Category>(objDTO);
+            var obj = _mapper.Map<CategoryDTO, Category>(objDTO);
 
             var addedObj = _db.Categories.Add(obj);
             _db.SaveChanges();
@@ -29,22 +30,48 @@ namespace Tangy_Business.Repository
 
         public int Delete(int id)
         {
-            throw new NotImplementedException();
+            var objFromDb = _db.Categories.FirstOrDefault(u => u.Id == id);
+            if (objFromDb != null)
+            {
+                _db.Categories.Remove(objFromDb);
+                return _db.SaveChanges();
+            }
+            return 0;
         }
 
         public CategoryDTO Get(int id)
         {
-            throw new NotImplementedException();
+            var objFromDb = _db.Categories.FirstOrDefault(u => u.Id == id);
+
+            if (objFromDb != null)
+            {
+                return _mapper.Map<Category, CategoryDTO>(objFromDb);
+            }
+            else
+            {
+                return new CategoryDTO();
+            }
         }
 
         public IEnumerable<CategoryDTO> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(_db.Categories);
         }
 
-        public CategoryDTO Update(CategoryDTO obj)
+        public CategoryDTO Update(CategoryDTO objDTO)
         {
-            throw new NotImplementedException();
+            var objFromDb = _db.Categories.FirstOrDefault(u => u.Id == objDTO.Id);
+            if (objFromDb != null)
+            {
+                objFromDb.Name = objDTO.Name;
+                _db.Categories.Update(objFromDb);
+                _db.SaveChanges();
+                return _mapper.Map<Category, CategoryDTO>(objFromDb);
+            }
+            else
+            {
+                return new CategoryDTO();
+            }
         }
     }
 }
