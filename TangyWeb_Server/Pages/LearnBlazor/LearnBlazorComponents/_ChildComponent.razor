@@ -1,0 +1,16 @@
+﻿@inject IJSRuntime _JsRuntime
+
+<div class="alert alert-danger">
+    <input type="text" @attributes="@InputAttribute" />
+    <_GrandChildComponent></_GrandChildComponent>
+</div>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttribute { get; set; }
+
+    public async Task SweetAlertSuccess()
+    {
+        await _JsRuntime.SweetAlertSuccess("Task completed successfully!");
+    }
+}
