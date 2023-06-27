@@ -1,7 +1,8 @@
 ﻿@page "/category"
-
 @inject ICategoryRepository _categoryRepository
+@inject IJSRuntime _jsRuntime
 
+<_DeleteConfirmation></_DeleteConfirmation>
 <div class="row mt-4">
     <div class="col-6">
         <h4 class="card-title text-primary">Category List</h4>
@@ -28,6 +29,7 @@
                         <td>@category.Name</td>
                         <td>
                             <NavLink href="@($"/category/edit/{category.Id}")" class="btn btn-primary">Edit</NavLink>
+                            <button @onclick="()=>HandleDelete(category.Id)" class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
                 }
@@ -52,6 +54,7 @@
 @code {
     public IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private bool IsLoading { get; set; } = true;
+    private int DeleteCategoryId { get; set; } = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,5 +65,11 @@
     {
         Categories = _categoryRepository.GetAll();
         IsLoading = false;
+    }
+
+    private void HandleDelete(int id)
+    {
+        DeleteCategoryId = id;
+        _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
     }
 }
