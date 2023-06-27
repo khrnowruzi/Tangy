@@ -27,7 +27,7 @@
                     <tr>
                         <td>@category.Name</td>
                         <td>
-                            <NavLink class="btn btn-primary">Edit</NavLink>
+                            <NavLink href="@($"/category/edit/{category.Id}")" class="btn btn-primary">Edit</NavLink>
                         </td>
                     </tr>
                 }
@@ -44,7 +44,7 @@
         }
         else
         {
-            <p>Category is empty...</p>
+            <p>No records found.</p>
         }
     }
 </div>
