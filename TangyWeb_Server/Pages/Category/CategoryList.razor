@@ -34,13 +34,33 @@
             </tbody>
         </table>
     }
+    else
+    {
+        if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/loading.gif" />
+            </div>
+        }
+        else
+        {
+            <p>Category is empty...</p>
+        }
+    }
 </div>
 
 @code {
     public IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+    private bool IsLoading { get; set; } = true;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadCategories);
+    }
+
+    private void LoadCategories()
     {
         Categories = _categoryRepository.GetAll();
+        IsLoading = false;
     }
 }
