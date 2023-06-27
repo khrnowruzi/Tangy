@@ -21,6 +21,7 @@ namespace Tangy_Business.Repository
         public CategoryDTO Create(CategoryDTO objDTO)
         {
             var obj = _mapper.Map<CategoryDTO, Category>(objDTO);
+            obj.CreatedDate = DateTime.Now;
 
             var addedObj = _db.Categories.Add(obj);
             _db.SaveChanges();
