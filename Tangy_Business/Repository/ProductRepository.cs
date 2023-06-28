@@ -31,25 +31,21 @@ namespace Tangy_Business.Repository
         public async Task<int> Delete(int id)
         {
             var objFromDb = await _db.Products.FirstOrDefaultAsync(product => product.Id == id);
-
             if (objFromDb != null)
             {
                 _db.Products.Remove(objFromDb);
                 return await _db.SaveChangesAsync();
             }
-
             return 0;
         }
 
         public async Task<ProductDTO> Get(int id)
         {
             var objFromDb = await _db.Products.FirstOrDefaultAsync(product => product.Id == id);
-
             if (objFromDb != null)
             {
                 return _mapper.Map<Product, ProductDTO>(objFromDb);
             }
-
             return new ProductDTO();
         }
 

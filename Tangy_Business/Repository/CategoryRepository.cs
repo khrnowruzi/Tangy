@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
 using Tangy_Business.Repository.IRepository;
 using Tangy_DataAccess;
 using Tangy_DataAccess.Data;
@@ -32,27 +31,23 @@ namespace Tangy_Business.Repository
 
         public async Task<int> Delete(int id)
         {
-            var objFromDb = await _db.Categories.FirstOrDefaultAsync(u => u.Id == id);
+            var objFromDb = await _db.Categories.FirstOrDefaultAsync(category => category.Id == id);
             if (objFromDb != null)
             {
                 _db.Categories.Remove(objFromDb);
-                await _db.SaveChangesAsync();
+                return await _db.SaveChangesAsync();
             }
             return 0;
         }
 
         public async Task<CategoryDTO> Get(int id)
         {
-            var objFromDb = await _db.Categories.FirstOrDefaultAsync(u => u.Id == id);
-
+            var objFromDb = await _db.Categories.FirstOrDefaultAsync(category => category.Id == id);
             if (objFromDb != null)
             {
                 return _mapper.Map<Category, CategoryDTO>(objFromDb);
             }
-            else
-            {
-                return new CategoryDTO();
-            }
+            return new CategoryDTO();
         }
 
         public async Task<IEnumerable<CategoryDTO>> GetAll()
@@ -62,7 +57,8 @@ namespace Tangy_Business.Repository
 
         public async Task<CategoryDTO> Update(CategoryDTO objDTO)
         {
-            var objFromDb = await _db.Categories.FirstOrDefaultAsync(u => u.Id == objDTO.Id);
+            var objFromDb = await _db.Categories.FirstOrDefaultAsync(category => category.Id == objDTO.Id);
+
             if (objFromDb != null)
             {
                 objFromDb.Name = objDTO.Name;
@@ -70,10 +66,8 @@ namespace Tangy_Business.Repository
                 await _db.SaveChangesAsync();
                 return _mapper.Map<Category, CategoryDTO>(objFromDb);
             }
-            else
-            {
-                return new CategoryDTO();
-            }
+
+            return objDTO;
         }
     }
 }
