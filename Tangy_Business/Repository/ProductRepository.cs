@@ -41,7 +41,9 @@ namespace Tangy_Business.Repository
 
         public async Task<ProductDTO> Get(int id)
         {
-            var objFromDb = await _db.Products.FirstOrDefaultAsync(product => product.Id == id);
+            var objFromDb = await _db.Products
+                .Include(prodcut => prodcut.Category)
+                .FirstOrDefaultAsync(product => product.Id == id);
             if (objFromDb != null)
             {
                 return _mapper.Map<Product, ProductDTO>(objFromDb);
@@ -51,7 +53,8 @@ namespace Tangy_Business.Repository
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(_db.Products);
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>
+                (_db.Products.Include(prodcut => prodcut.Category));
         }
 
         public async Task<ProductDTO> Update(ProductDTO objDTO)
