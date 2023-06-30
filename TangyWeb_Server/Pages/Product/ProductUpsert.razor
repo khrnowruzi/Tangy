@@ -37,7 +37,7 @@
                     <ValidationMessage For="()=>Product.Description" />
                 </div>
 
-                <div class="row mt-2">
+                <div class="row pt-3">
                     <div class="form-group col-6">
                         <div class="form-check">
                             <InputCheckbox @bind-Value="@Product.ShopFavorites" class="form-check-input"></InputCheckbox>
@@ -51,6 +51,7 @@
                         </div>
                     </div>
                     <div class="form-group col-6">
+                        <label>Category</label>
                         <InputSelect @bind-Value="@Product.CategoryId" class="form-select">
                             <option value="0" disabled="disabled" selected>--Select Category--</option>
                             @foreach (var category in Categories)
@@ -60,7 +61,7 @@
                         </InputSelect>
                         <ValidationMessage For="()=>Product.CategoryId" />
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group pt-4 col-6">
                         <InputFile OnChange="HandleImageUplad"></InputFile>
                     </div>
                 </div>
@@ -87,6 +88,7 @@
     public IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private string Title { get; set; } = "Create";
     private bool IsLoading { get; set; }
+    private string OldImageUrl { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -106,6 +108,7 @@
             //update
             Title = "Update";
             Product = await _productRepository.Get(Id);
+            OldImageUrl = Product.ImageUrl;
         }
         IsLoading = false;
         StateHasChanged();
@@ -117,11 +120,17 @@
         {
             //create
             await _productRepository.Create(Product);
+            await _jsRuntime.ToastrSuccess("Prodcut created successfully.");
         }
         else
         {
             //update
             await _productRepository.Update(Product);
+            if (!OldImageUrl.Contains("default.png") && OldImageUrl != Product.ImageUrl)
+            {
+                _fileUpload.DeleteFile(OldImageUrl);
+            }
+            await _jsRuntime.ToastrSuccess("Prodcut updated successfully.");
         }
         _navigationManager.NavigateTo("product");
     }
