@@ -42,7 +42,7 @@ namespace Tangy_Business.Repository
         public async Task<ProductDTO> Get(int id)
         {
             var objFromDb = await _db.Products
-                .Include(prodcut => prodcut.Category)
+                .Include(product => product.Category)
                 .FirstOrDefaultAsync(product => product.Id == id);
             if (objFromDb != null)
             {
@@ -54,7 +54,7 @@ namespace Tangy_Business.Repository
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>
-                (_db.Products.Include(prodcut => prodcut.Category));
+                (_db.Products.Include(product => product.Category));
         }
 
         public async Task<ProductDTO> Update(ProductDTO objDTO)
@@ -70,6 +70,7 @@ namespace Tangy_Business.Repository
                 objFromDb.Color = objDTO.Color;
                 objFromDb.ShopFavorites = objDTO.ShopFavorites;
                 objFromDb.CustomerFavorites = objDTO.CustomerFavorites;
+
                 _db.Products.Update(objFromDb);
                 await _db.SaveChangesAsync();
                 return _mapper.Map<Product, ProductDTO>(objFromDb);
