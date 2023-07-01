@@ -52,8 +52,14 @@ namespace Tangy_Business.Repository
             return new ProductPriceDTO();
         }
 
-        public async Task<IEnumerable<ProductPriceDTO>> GetAll()
+        public async Task<IEnumerable<ProductPriceDTO>> GetAll(int? productId = null)
         {
+            if (productId != null)
+            {
+                return _mapper.Map<IEnumerable<ProductPrice>, IEnumerable<ProductPriceDTO>>
+                    (_db.ProductPrices.Include(productPrice => productPrice.Product))
+                    .Where(productPrice => productPrice.ProductId == productId);
+            }
             return _mapper.Map<IEnumerable<ProductPrice>, IEnumerable<ProductPriceDTO>>
                 (_db.ProductPrices.Include(productPrice => productPrice.Product));
         }
