@@ -23,7 +23,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IFileUpload, FileUpload>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-//Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Your lisence code");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NGaF5cXmdCeUx+WmFZfV1gdVVMZFxbRnZPMyBoS35RdUVkWX5fcHBVRGBYWEdw");
 
 var app = builder.Build();
 
