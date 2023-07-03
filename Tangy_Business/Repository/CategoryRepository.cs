@@ -18,6 +18,7 @@ namespace Tangy_Business.Repository
             this._mapper = mapper;
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<CategoryDTO> Create(CategoryDTO objDTO)
         {
             var obj = _mapper.Map<CategoryDTO, Category>(objDTO);
@@ -29,6 +30,7 @@ namespace Tangy_Business.Repository
             return _mapper.Map<Category, CategoryDTO>(addedObj.Entity);
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<int> Delete(int id)
         {
             var objFromDb = await _db.Categories.FirstOrDefaultAsync(category => category.Id == id);
@@ -40,6 +42,7 @@ namespace Tangy_Business.Repository
             return 0;
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<CategoryDTO> Get(int id)
         {
             var objFromDb = await _db.Categories.FirstOrDefaultAsync(category => category.Id == id);
@@ -50,11 +53,13 @@ namespace Tangy_Business.Repository
             return new CategoryDTO();
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<IEnumerable<CategoryDTO>> GetAll()
         {
             return _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(_db.Categories);
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<CategoryDTO> Update(CategoryDTO objDTO)
         {
             var objFromDb = await _db.Categories.FirstOrDefaultAsync(category => category.Id == objDTO.Id);

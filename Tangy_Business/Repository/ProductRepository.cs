@@ -18,6 +18,7 @@ namespace Tangy_Business.Repository
             this._mapper = mapper;
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<ProductDTO> Create(ProductDTO objDTO)
         {
             var obj = _mapper.Map<ProductDTO, Product>(objDTO);
@@ -28,6 +29,7 @@ namespace Tangy_Business.Repository
             return _mapper.Map<Product, ProductDTO>(addedObj.Entity);
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<int> Delete(int id)
         {
             var objFromDb = await _db.Products.FirstOrDefaultAsync(product => product.Id == id);
@@ -39,6 +41,7 @@ namespace Tangy_Business.Repository
             return 0;
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<ProductDTO> Get(int id)
         {
             var objFromDb = await _db.Products
@@ -51,12 +54,15 @@ namespace Tangy_Business.Repository
             return new ProductDTO();
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>
-                (_db.Products.Include(product => product.Category));
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(
+                _db.Products.Include(product => product.Category)
+                );
         }
 
+        //-------------------------------------------------------------------------------------
         public async Task<ProductDTO> Update(ProductDTO objDTO)
         {
             var objFromDb = await _db.Products.FirstOrDefaultAsync(product => product.Id == objDTO.Id);
