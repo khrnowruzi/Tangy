@@ -47,26 +47,23 @@ namespace TangyWeb_Client.Service
         {
             var cart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
 
-            if (cart != null)
+            //if count is 0 or 1 then we remove the item
+            for (int i = 0; i < cart.Count; i++)
             {
-                var foundedShopingCart = cart
-                    .Where(c => c.ProductId == cartToDecrement.ProductId && c.ProductPriceId == cartToDecrement.ProductId)
-                    .FirstOrDefault();
-
-                if (foundedShopingCart != null && cartToDecrement.Count <= foundedShopingCart.Count)
+                if (cart[i].ProductId == cartToDecrement.ProductId && cart[i].ProductPriceId == cartToDecrement.ProductPriceId)
                 {
-                    if (cartToDecrement.Count == foundedShopingCart.Count)
+                    if (cart[i].Count == 1 || cart[i].Count == 0)
                     {
-                        cart.Remove(foundedShopingCart);
+                        cart.Remove(cart[i]);
                     }
                     else
                     {
-                        foundedShopingCart.Count -= cartToDecrement.Count;
+                        cart[i].Count -= cartToDecrement.Count;
                     }
-
-                    await _localStorage.SetItemAsync(SD.ShoppingCart, cart);
                 }
             }
+
+            await _localStorage.SetItemAsync(SD.ShoppingCart, cart);
         }
     }
 }
