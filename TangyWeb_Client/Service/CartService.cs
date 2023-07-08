@@ -23,25 +23,23 @@ namespace TangyWeb_Client.Service
             {
                 cart = new List<ShoppingCart>();
             }
-
             foreach (var obj in cart)
             {
-                if (obj.ProductId == cartToAdd.ProductId && obj.ProductPriceId == cartToAdd.ProductId)
+                if (obj.ProductId == cartToAdd.ProductId && obj.ProductPriceId == cartToAdd.ProductPriceId)
                 {
                     itemInCart = true;
                     obj.Count += cartToAdd.Count;
                 }
-                if (!itemInCart)
-                {
-                    cart.Add(new ShoppingCart()
-                    {
-                        ProductId = cartToAdd.ProductId,
-                        ProductPriceId = cartToAdd.ProductPriceId,
-                        Count = cartToAdd.Count
-                    });
-                }
             }
-
+            if (!itemInCart)
+            {
+                cart.Add(new ShoppingCart()
+                {
+                    ProductId = cartToAdd.ProductId,
+                    ProductPriceId = cartToAdd.ProductPriceId,
+                    Count = cartToAdd.Count
+                });
+            }
             await _localStorage.SetItemAsync(SD.ShoppingCart, cart);
         }
 
