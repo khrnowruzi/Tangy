@@ -17,7 +17,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(o => o.AddPolicy("Tangy", builder =>
 {
-    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyMethod();
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
 var app = builder.Build();

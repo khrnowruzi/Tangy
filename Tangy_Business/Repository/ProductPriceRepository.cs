@@ -19,7 +19,6 @@ namespace Tangy_Business.Repository
             this._mapper = mapper;
         }
 
-        //-------------------------------------------------------------------------------------
         public async Task<ProductPriceDTO> Create(ProductPriceDTO objDTO)
         {
             var obj = _mapper.Map<ProductPriceDTO, ProductPrice>(objDTO);
@@ -30,7 +29,6 @@ namespace Tangy_Business.Repository
             return _mapper.Map<ProductPrice, ProductPriceDTO>(addedObj.Entity);
         }
 
-        //-------------------------------------------------------------------------------------
         public async Task<int> Delete(int id)
         {
             var objFromDb = await _db.ProductPrices
@@ -43,7 +41,6 @@ namespace Tangy_Business.Repository
             return 0;
         }
 
-        //-------------------------------------------------------------------------------------
         public async Task<ProductPriceDTO> Get(int id)
         {
             var objFromDb = await _db.ProductPrices
@@ -56,7 +53,6 @@ namespace Tangy_Business.Repository
             return new ProductPriceDTO();
         }
 
-        //-------------------------------------------------------------------------------------
         public async Task<IEnumerable<ProductPriceDTO>> GetAll(int? productId = null)
         {
             if (productId != null)
@@ -72,7 +68,6 @@ namespace Tangy_Business.Repository
                 );
         }
 
-        //-------------------------------------------------------------------------------------
         public async Task<ProductPriceDTO> Update(ProductPriceDTO objDTO)
         {
             var objFromDb = await _db.ProductPrices
