@@ -1,0 +1,27 @@
+﻿@page "/learnBlazor/parentcomponent"
+
+<CascadingValue Value="@Message1" Name="MessageForGrandChild">
+    <CascadingValue Value="@Message2" Name="TangyNumber">
+        <_ChildComponent @ref="childComponent" placeholder="Placeholder from Parent"></_ChildComponent>
+    </CascadingValue>
+</CascadingValue>
+
+<div class="row mt-2">
+    <button class="btn btn-success m-1" style="width:200px;" @onclick="() => childComponent.SweetAlertSuccess()">
+        SweetAlert Success
+    </button>
+</div>
+
+@code {
+    //private Dictionary<string, object> InputAttributeForParent { get; set; } = new Dictionary<string, object>
+    //{
+    //    {"required","required" },
+    //    {"maxlength","5" },
+    //    {"placeholder","Please Enter the Name of Parent" }
+    //};
+
+    private string Message1 = "This is a message from Demo Product Parent...";
+    private string Message2 = "111";
+
+    private _ChildComponent childComponent;
+    }

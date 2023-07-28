@@ -1,0 +1,13 @@
+﻿<div class="row pt-4">
+    <hr/>
+    <h4 class="text-success">Grand child component</h4>
+    <p>This is a message - @MessageForGrandChild</p>
+    <p>The number is - @TangyNumber</p>
+</div>
+
+@code {
+    [CascadingParameter(Name = "MessageForGrandChild")]
+    public string MessageForGrandChild { get; set; }
+    [CascadingParameter(Name = "TangyNumber")]
+    public string TangyNumber { get; set; }
+}
